@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Results - {{ election.title }}{% endblock %}
+{% block content %}
+  <h2 class="h4">Results: {{ election.title }}</h2>
+  <p class="muted-small">{{ election.description }}</p>
+  {% set total = 0 %}
+  {% for c in candidates %}{% set total = total + c.votes %}{% endfor %}
+  <div class="mt-3">
+    {% for c in candidates %}
+      {% set pct = (c.votes / total * 100) if total > 0 else 0 %}
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-1">
+          <div>{{ c.name }}</div>
+          <div><strong>{{ c.votes }}</strong> <small class="muted-small">({{ '%.1f'|format(pct) }}%)</small></div>
+        </div>
+        <div class="progress results-bar">
+          <div class="progress-bar" role="progressbar" style="width: {{ pct }}%" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <a class="btn btn-ghost btn-sm mt-3" href="{{ url_for('index') }}">Back</a>
+{% endblock %}

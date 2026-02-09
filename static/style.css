@@ -1,0 +1,16 @@
+:root{--max-width:900px}
+.container{max-width:var(--max-width)}
+body{padding-top:88px;background:linear-gradient(180deg,#f7fbff,#f8fafc);color:#222}
+.hero{padding:28px 18px;border-radius:12px;background:white;margin-bottom:18px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+.candidate{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:8px;margin-bottom:10px;background:#fff;border:1px solid #eef2f7}
+.candidate .name{font-weight:600}
+.candidate .meta{font-size:0.9rem;color:#6b7280}
+.card-centered{max-width:560px;margin:30px auto}
+.form-card{padding:20px}
+.list-group-item a{ text-decoration:none }
+.btn-primary{background:linear-gradient(90deg,#2563eb,#3b82f6);border:0}
+.btn-ghost{background:transparent;border:1px solid rgba(59,130,246,0.15);color:#2563eb}
+.muted-small{font-size:0.9rem;color:#6c757d}
+.candidate-avatar{width:44px;height:44px;border-radius:8px;background:#eef2ff;color:#0b4fd6;display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:12px}
+.election-card{padding:16px;border-radius:10px;background:#fff;border:1px solid #eef2f7;box-shadow:0 4px 12px rgba(15,23,42,0.04);margin-bottom:14px}
+.results-bar{height:12px;border-radius:8px}

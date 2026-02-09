@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Vote - {{ election.title }}{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <div>
+      <h2 class="h4 mb-0">{{ election.title }}</h2>
+      <p class="muted-small mb-0">{{ election.description }}</p>
+    </div>
+    <div>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('results', election_id=election.id) }}">View results</a>
+    </div>
+  </div>
+  {% if voted %}
+    <div class="alert alert-info">You have already voted in this election. <a href="{{ url_for('results', election_id=election.id) }}">See results</a></div>
+  {% else %}
+    <form id="vote-form" data-election-id="{{ election.id }}" method="post" action="{{ url_for('cast_vote', election_id=election.id) }}">
+      {% if csrf_token is defined %}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      {% endif %}
+      {% for c in election.candidates %}
+        <div class="candidate">
+          <div class="d-flex align-items-center">
+            <div class="candidate-avatar">{{ c.name[0]|upper }}</div>
+            <div>
+              <div class="name">{{ c.name }}</div>
+              <div class="meta muted-small">Candidate ID: {{ c.id }}</div>
+            </div>
+          </div>
+          <div>
+            <input class="form-check-input" type="radio" name="candidate" id="c{{ c.id }}" value="{{ c.id }}" data-name="{{ c.name }}" required>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Submit Vote</button>
+      </div>
+    </form>
+
+    <!-- Confirmation modal -->
+    <div class="modal fade" id="voteConfirmModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm your vote</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>You're about to vote for</p>
+            <p class="fw-semibold candidate-name"></p>
+            <p class="muted-small">This action cannot be undone.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" id="confirm-vote-btn" class="btn btn-primary">Confirm Vote</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <script src="/static/app.js"></script>
+{% endblock %}

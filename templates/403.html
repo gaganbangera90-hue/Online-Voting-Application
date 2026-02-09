@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Forbidden - OVS{% endblock %}
+{% block content %}
+  <div class="card card-centered text-center p-4">
+    <h1 class="display-6">403</h1>
+    <p class="muted-small">You don't have permission to view this resource.</p>
+    <p><a class="btn btn-primary" href="{{ url_for('index') }}">Return Home</a></p>
+  </div>
+{% endblock %}

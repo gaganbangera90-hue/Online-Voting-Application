@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Register - OVS{% endblock %}
+{% block content %}
+  <div class="card card-centered shadow-sm">
+    <div class="card-body form-card">
+      <h3 class="mb-3">Create account</h3>
+      <form method="post" action="{{ url_for('register') }}">
+        {% if csrf_token is defined %}
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {% endif %}
+        <input type="hidden" name="next" value="{{ next or '' }}">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input class="form-control" name="username" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input class="form-control" name="password" type="password" required>
+          <div class="form-text">Choose a password (min 6 characters).</div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <button class="btn btn-success">Register</button>
+          <a href="{{ url_for('login') }}" class="muted-small">Already have an account?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

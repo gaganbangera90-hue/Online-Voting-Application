@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Create Election - OVS{% endblock %}
+{% block content %}
+  <div class="card card-centered shadow-sm">
+    <div class="card-body form-card">
+      <h3 class="mb-3">Create Election</h3>
+      <form id="create-election-form" method="post" action="{{ url_for('create_election') }}">
+        {% if csrf_token is defined %}
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {% endif %}
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input class="form-control" name="title" placeholder="e.g. Student Council 2026" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" name="description" placeholder="Short description or instructions"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Candidates (comma separated)</label>
+          <input class="form-control" name="candidates" placeholder="Alice, Bob, Charlie" required>
+          <div class="form-text">Separate candidates with commas. Example: <span class="muted-small">Alice, Bob, Charlie</span></div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <a class="btn btn-ghost btn-sm me-2" href="{{ url_for('index') }}">Cancel</a>
+          <button class="btn btn-outline-light btn-ghost me-2" type="reset">Reset</button>
+          <button id="create-submit" class="btn btn-success">Create Election</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

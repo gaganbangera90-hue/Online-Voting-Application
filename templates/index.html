@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Home - OVS{% endblock %}
+{% block content %}
+    <div class="hero d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="h4 mb-1">Elections</h1>
+            <p class="muted-small mb-0">Select an election to vote or view the latest results.</p>
+        </div>
+        <div>
+            {% if current_user.is_authenticated and current_user.is_admin %}
+                <a class="btn btn-primary btn-sm" href="{{ url_for('create_election') }}">Create Election</a>
+            {% else %}
+                <a class="btn btn-ghost btn-sm" href="{{ url_for('login') }}">Sign in to vote</a>
+            {% endif %}
+        </div>
+    </div>
+    {% if elections %}
+        <div>
+            {% for e in elections %}
+                <div class="election-card d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="d-flex align-items-center mb-1">
+                          <h5 class="mb-0 me-3"><a href="{{ url_for('view_election', election_id=e.id) }}">{{ e.title }}</a></h5>
+                          {% if e.active %}
+                            <span class="badge bg-success">Active</span>
+                          {% else %}
+                            <span class="badge bg-secondary">Closed</span>
+                          {% endif %}
+                        </div>
+                        <p class="muted-small mb-2">{{ e.description or 'No description' }}</p>
+                        <div class="muted-small">ID: {{ e.id }}</div>
+                    </div>
+                    <div class="d-flex flex-column align-items-end">
+                        <div class="mb-2">
+                            {% if current_user.is_authenticated %}
+                                {% if e.active %}
+                                  <a class="btn btn-primary btn-sm me-2" href="{{ url_for('view_election', election_id=e.id) }}">Vote</a>
+                                {% else %}
+                                  <button class="btn btn-primary btn-sm me-2" disabled>Vote</button>
+                                {% endif %}
+                            {% else %}
+                                <a class="btn btn-outline-light btn-sm btn-ghost me-2" href="{{ url_for('login', next=url_for('view_election', election_id=e.id)) }}">Sign in to vote</a>
+                            {% endif %}
+                            <a class="btn btn-ghost btn-sm me-2" href="{{ url_for('results', election_id=e.id) }}">Results</a>
+                            <a class="btn btn-ghost btn-sm" href="{{ url_for('view_election', election_id=e.id) }}">Details</a>
+                        </div>
+                        <small class="muted-small">{{ e.candidates|length }} candidates</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No elections yet.</p>
+    {% endif %}
+{% endblock %}
